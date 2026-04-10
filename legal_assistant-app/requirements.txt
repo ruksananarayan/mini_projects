@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+streamlit
+requests
+chromadb
+sentence-transformers
+transformers
+torch
+gTTS
+PyPDF2
+python-docx
+python-multipart
+tqdm
