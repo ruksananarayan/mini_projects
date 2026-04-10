@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>🌾 MicroClimate Crop Advisor | AI-Powered Agricultural Intelligence</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Animated Background -->
+        <div class="animated-bg">
+            <div class="gradient-sphere"></div>
+            <div class="gradient-sphere sphere-2"></div>
+        </div>
+
+        <!-- Header -->
+        <header class="glass-header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <h1>MicroClimate Crop Advisor</h1>
+                </div>
+                <p class="tagline">AI-Powered Precision Agriculture for Optimal Yields</p>
+            </div>
+        </header>
+
+        <main>
+            <!-- Location Section with Dual Options -->
+            <div class="location-section glass-card">
+                <h3><i class="fas fa-map-marker-alt"></i> Location Settings</h3>
+                <div class="location-options">
+                    <button id="getCurrentLocationBtn" class="btn-glow">
+                        <i class="fas fa-location-dot"></i>
+                        <span>Use My Current Location</span>
+                    </button>
+                    <div class="divider">OR</div>
+                    <div class="manual-location">
+                        <div class="input-group">
+                            <i class="fas fa-city"></i>
+                            <input type="text" id="cityInput" placeholder="Enter city name (e.g., New York, London, Mumbai)">
+                        </div>
+                        <div class="input-group">
+                            <i class="fas fa-globe"></i>
+                            <input type="text" id="countryInput" placeholder="Country (optional)">
+                        </div>
+                        <button id="searchLocationBtn" class="btn-secondary">
+                            <i class="fas fa-search"></i>
+                            <span>Search Location</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="locationStatus" class="status-message"></div>
+            </div>
+
+            <!-- Dashboard with Enhanced Cards -->
+            <div class="dashboard-grid">
+                <!-- Weather Card -->
+                <div class="dashboard-card weather-card glass-card">
+                    <div class="card-header">
+                        <i class="fas fa-cloud-sun"></i>
+                        <h3>Current Microclimate</h3>
+                        <span class="badge" id="dataSourceBadge">Live Data</span>
+                    </div>
+                    <div id="weatherData" class="weather-content">
+                        <div class="placeholder">
+                            <i class="fas fa-map-pin"></i>
+                            <p>Select a location to view weather data</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Crop Prediction Card -->
+                <div class="dashboard-card prediction-card glass-card">
+                    <div class="card-header">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Crop Recommendation</h3>
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div id="predictionData" class="prediction-content">
+                        <div class="placeholder">
+                            <i class="fas fa-seedling"></i>
+                            <p>Weather data required for prediction</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Soil & Crop Details Card -->
+            <div class="details-card glass-card">
+                <div class="card-header">
+                    <i class="fas fa-leaf"></i>
+                    <h3>Soil & Crop Analysis</h3>
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <div id="soilData" class="soil-content">
+                    <div class="placeholder">
+                        <i class="fas fa-microscope"></i>
+                        <p>Analysis will appear after location selection</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Complete Analysis with Beautiful Formatting -->
+            <div class="analysis-card glass-card">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar"></i>
+                    <h3>Comprehensive Microclimate Analysis</h3>
+                    <button id="analyzeBtn" class="btn-sm">
+                        <i class="fas fa-sync-alt"></i>
+                        Generate Report
+                    </button>
+                </div>
+                <div id="analysisData" class="analysis-content">
+                    <div class="placeholder">
+                        <i class="fas fa-file-alt"></i>
+                        <p>Click "Generate Report" for detailed insights</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enhanced Chat Section -->
+            <div class="chat-card glass-card">
+                <div class="card-header">
+                    <div class="chat-header-left">
+                        <i class="fas fa-comments"></i>
+                        <h3>AI Crop Advisor</h3>
+                        <span class="ai-status">
+                            <i class="fas fa-circle"></i>
+                            Online
+                        </span>
+                    </div>
+                    <button id="clearChatBtn" class="btn-icon">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+                
+                <div class="chat-container">
+                    <div id="chatMessages" class="chat-messages">
+                        <div class="message bot">
+                            <div class="message-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="sender">AI Advisor</span>
+                                    <span class="time">Just now</span>
+                                </div>
+                                <p>🌾 Hello! I'm your AI crop advisor. I can help you with:</p>
+                                <ul class="suggestions-list">
+                                    <li>📅 Best planting times for your location</li>
+                                    <li>💧 Irrigation schedules and water management</li>
+                                    <li>🌱 Soil preparation and fertilizer recommendations</li>
+                                    <li>🐛 Pest control and disease prevention</li>
+                                    <li>📈 Yield optimization strategies</li>
+                                </ul>
+                                <p>What would you like to know about your crops today?</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input-area">
+                        <div class="quick-actions">
+                            <button class="quick-btn" data-question="What's the best time to plant?">
+                                <i class="fas fa-calendar-alt"></i> Planting Time
+                            </button>
+                            <button class="quick-btn" data-question="How much water does my crop need?">
+                                <i class="fas fa-tint"></i> Water Needs
+                            </button>
+                            <button class="quick-btn" data-question="What fertilizers should I use?">
+                                <i class="fas fa-flask"></i> Fertilizers
+                            </button>
+                            <button class="quick-btn" data-question="How to prevent pests?">
+                                <i class="fas fa-bug"></i> Pest Control
+                            </button>
+                        </div>
+                        <div class="input-wrapper">
+                            <textarea id="chatInput" placeholder="Ask me anything about farming, crops, or microclimate..." rows="1"></textarea>
+                            <button id="sendBtn" class="btn-send">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <div class="typing-indicator" id="typingIndicator">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
