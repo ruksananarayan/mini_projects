@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Phishing Detection System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>PhishGuard AI</span>
+            </div>
+            <div class="header-stats">
+                <div class="stat">
+                    <span class="stat-value" id="totalScanned">0</span>
+                    <span class="stat-label">URLs Scanned</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="phishingDetected">0</span>
+                    <span class="stat-label">Phishing Detected</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value" id="modelStatus">Ready</span>
+                    <span class="stat-label">AI Status</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Hero Section -->
+            <section class="hero">
+                <h1 class="hero-title">Advanced AI Phishing Detection</h1>
+                <p class="hero-subtitle">Protect yourself from malicious websites using machine learning algorithms</p>
+                
+                <div class="model-info">
+                    <div class="model-card">
+                        <i class="fas fa-tree"></i>
+                        <h3>Decision Tree</h3>
+                        <p>Fast pattern recognition</p>
+                    </div>
+                    <div class="model-card">
+                        <i class="fas fa-forest"></i>
+                        <h3>Random Forest</h3>
+                        <p>Ensemble learning for accuracy</p>
+                    </div>
+                    <div class="model-card">
+                        <i class="fas fa-brain"></i>
+                        <h3>AI Powered</h3>
+                        <p>Real-time analysis</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- URL Checker -->
+            <section class="checker-section">
+                <div class="checker-card">
+                    <h2><i class="fas fa-search"></i> Check URL for Phishing</h2>
+                    
+                    <div class="input-group">
+                        <input type="text" id="urlInput" placeholder="Enter URL to analyze (e.g., example.com)" />
+                        <button id="checkBtn" class="btn-primary">
+                            <i class="fas fa-search"></i>
+                            Analyze URL
+                        </button>
+                    </div>
+
+                    <div class="batch-section">
+                        <h3><i class="fas fa-list"></i> Batch Analysis</h3>
+                        <textarea id="batchUrls" placeholder="Enter multiple URLs (one per line) for batch analysis&#10;Example:&#10;google.com&#10;facebook.com&#10;example.com"></textarea>
+                        <button id="batchCheckBtn" class="btn-secondary">
+                            <i class="fas fa-list"></i>
+                            Analyze Multiple URLs
+                        </button>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button id="trainBtn" class="btn-outline">
+                            <i class="fas fa-robot"></i>
+                            Train AI Model
+                        </button>
+                        <button id="clearBtn" class="btn-outline">
+                            <i class="fas fa-broom"></i>
+                            Clear Results
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <h2><i class="fas fa-chart-bar"></i> Analysis Results</h2>
+                <div id="resultsContainer"></div>
+            </section>
+
+            <!-- Feature Analysis -->
+            <section class="features-section" id="featuresSection" style="display: none;">
+                <h2><i class="fas fa-cogs"></i> Feature Analysis</h2>
+                <div id="featuresContainer"></div>
+            </section>
+
+            <!-- Graph Sections -->
+            <section class="graphs-section" id="trainingGraphs" style="display: none;">
+                <h2><i class="fas fa-chart-bar"></i> Model Analysis</h2>
+                <div class="graphs-container" id="trainingGraphsContainer"></div>
+            </section>
+
+            <section class="graphs-section" id="predictionGraphs" style="display: none;">
+                <h2><i class="fas fa-chart-pie"></i> Prediction Analytics</h2>
+                <div class="graphs-container" id="predictionGraphsContainer"></div>
+            </section>
+
+            <!-- Sample URLs -->
+            <section class="samples-section">
+                <div class="samples-card">
+                    <h3><i class="fas fa-lightbulb"></i> Try These Sample URLs</h3>
+                    <div class="sample-urls">
+                        <button class="sample-url" data-url="https://google.com">
+                            <i class="fas fa-check-circle"></i>
+                            Safe: google.com
+                        </button>
+                        <button class="sample-url" data-url="https://github.com">
+                            <i class="fas fa-check-circle"></i>
+                            Safe: github.com
+                        </button>
+                        <button class="sample-url" data-url="http://fake-login.tk">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Suspicious: fake-login.tk
+                        </button>
+                        <button class="sample-url" data-url="https://secure-verify-account.xyz">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Suspicious: secure-verify-account.xyz
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Powered by Machine Learning | Decision Trees & Random Forest Algorithms</p>
+        </footer>
+    </div>
+
+    <!-- Loading Modal -->
+    <div id="loadingModal" class="modal">
+        <div class="modal-content">
+            <div class="loader">
+                <i class="fas fa-shield-alt fa-spin"></i>
+            </div>
+            <h3 id="loadingTitle">Analyzing URL</h3>
+            <p id="loadingMessage">Our AI is examining the website features...</p>
+        </div>
+    </div>
+
+    <!-- Notification System -->
+    <div id="notification" class="notification"></div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
