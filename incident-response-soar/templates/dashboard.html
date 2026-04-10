@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ total_incidents }}</h5>
+                <p class="card-text">Total Incidents</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ open_incidents }}</h5>
+                <p class="card-text">Open Incidents</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ high_severity }}</h5>
+                <p class="card-text">High Severity</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ total_alerts }}</h5>
+                <p class="card-text">Total Alerts</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="fas fa-rocket"></i> Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <a href="/create-incident" class="btn btn-success mb-2 w-100">
+                    <i class="fas fa-plus"></i> Create New Incident
+                </a>
+                <a href="/create-alert" class="btn btn-warning mb-2 w-100">
+                    <i class="fas fa-bell"></i> Create New Alert
+                </a>
+                <a href="/upload-logs" class="btn btn-info mb-2 w-100">
+                    <i class="fas fa-upload"></i> Upload & Analyze Logs
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5><i class="fas fa-info-circle"></i> System Info</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Status:</strong> <span class="badge bg-success">Operational</span></p>
+                <p><strong>Database:</strong> SQLite</p>
+                <p><strong>Automation:</strong> <span class="badge bg-success">Active</span></p>
+                <p><strong>Threat Intelligence:</strong> <span class="badge bg-info">Enabled</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-exclamation-triangle"></i> Recent Incidents</h5>
+            </div>
+            <div class="card-body">
+                {% for incident in recent_incidents %}
+                <div class="alert alert-{% if incident.severity == 'high' or incident.severity == 'critical' %}danger{% else %}warning{% endif %} mb-2">
+                    <strong>{{ incident.title }}</strong><br>
+                    <small>
+                        Severity: <span class="badge bg-{% if incident.severity == 'high' or incident.severity == 'critical' %}danger{% else %}warning{% endif %}">{{ incident.severity }}</span> | 
+                        Created: {{ incident.created_at.strftime('%Y-%m-%d %H:%M') }}
+                        {% if incident.source_ip %}| Source IP: {{ incident.source_ip }}{% endif %}
+                    </small>
+                </div>
+                {% endfor %}
+                {% if not recent_incidents %}
+                <p class="text-muted">No incidents found</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-bell"></i> Recent Alerts</h5>
+            </div>
+            <div class="card-body">
+                {% for alert in recent_alerts %}
+                <div class="alert alert-{% if alert.severity == 'high' or alert.severity == 'critical' %}danger{% else %}info{% endif %} mb-2">
+                    <strong>{{ alert.alert_type }}</strong><br>
+                    <small>
+                        Source: {{ alert.source }} | 
+                        Confidence: {{ (alert.confidence * 100)|round|int }}% |
+                        {% if alert.source_ip %}IP: {{ alert.source_ip }}{% endif %}
+                    </small>
+                </div>
+                {% endfor %}
+                {% if not recent_alerts %}
+                <p class="text-muted">No alerts found</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

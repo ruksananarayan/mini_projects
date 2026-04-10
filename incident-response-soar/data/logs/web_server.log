@@ -1,0 +1,2 @@
+﻿Jan 15 10:30:00 web01 apache2: 192.168.1.100 GET /index.html
+Jan 15 10:31:00 web01 apache2: 203.0.113.45 POST /login.php

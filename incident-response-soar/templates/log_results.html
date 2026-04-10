@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h4><i class="fas fa-chart-bar"></i> Log Analysis Results</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Statistics</h5>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Log Type:</strong> {{ log_type }}</p>
+                                <p><strong>File:</strong> {{ filename }}</p>
+                                <p><strong>Total Log Entries:</strong> {{ parsed_logs|length }}</p>
+                                <p><strong>Anomalies Detected:</strong> {{ anomalies|length }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Anomalies Found</h5>
+                            </div>
+                            <div class="card-body">
+                                {% if anomalies %}
+                                    {% for anomaly in anomalies %}
+                                    <div class="alert alert-{% if anomaly.severity == 'high' %}danger{% else %}warning{% endif %}">
+                                        <strong>{{ anomaly.type|replace('_', ' ')|title }}</strong><br>
+                                        {{ anomaly.description }}<br>
+                                        <small>Severity: {{ anomaly.severity }}</small>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="alert alert-success">
+                                        <i class="fas fa-check-circle"></i> No anomalies detected in the logs.
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h5>Parsed Log Entries (First 10 entries)</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        {% if log_type == 'firewall' %}
+                                            <th>Timestamp</th>
+                                            <th>Source IP</th>
+                                            <th>Dest IP</th>
+                                            <th>Action</th>
+                                            <th>Rule</th>
+                                        {% else %}
+                                            <th>Raw Log</th>
+                                        {% endif %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for log in parsed_logs[:10] %}
+                                    <tr>
+                                        <td>{{ loop.index }}</td>
+                                        {% if log_type == 'firewall' %}
+                                            <td>{{ log.timestamp }}</td>
+                                            <td>{{ log.source_ip }}</td>
+                                            <td>{{ log.dest_ip }}</td>
+                                            <td>
+                                                <span class="badge bg-{% if log.action == 'DENY' %}danger{% else %}success{% endif %}">
+                                                    {{ log.action }}
+                                                </span>
+                                            </td>
+                                            <td>{{ log.rule }}</td>
+                                        {% else %}
+                                            <td><code>{{ log.raw }}</code></td>
+                                        {% endif %}
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% if parsed_logs|length > 10 %}
+                        <p class="text-muted">Showing 10 of {{ parsed_logs|length }} entries</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <a href="/upload-logs" class="btn btn-info">
+                        <i class="fas fa-upload"></i> Analyze More Logs
+                    </a>
+                    <a href="/" class="btn btn-secondary">
+                        <i class="fas fa-home"></i> Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

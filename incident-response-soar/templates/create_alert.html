@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning text-white">
+                <h4><i class="fas fa-bell"></i> Create New Alert</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/create-alert">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="source" class="form-label">Alert Source *</label>
+                                <select class="form-select" id="source" name="source" required>
+                                    <option value="Firewall">Firewall</option>
+                                    <option value="IDS">Intrusion Detection System</option>
+                                    <option value="Antivirus">Antivirus</option>
+                                    <option value="SIEM">SIEM</option>
+                                    <option value="Web Server">Web Server</option>
+                                    <option value="Database">Database</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="alert_type" class="form-label">Alert Type *</label>
+                                <input type="text" class="form-control" id="alert_type" name="alert_type" required
+                                       placeholder="e.g., Brute Force, Malware, Port Scan">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description *</label>
+                        <textarea class="form-control" id="description" name="description" rows="4" required
+                                  placeholder="Detailed description of the alert..."></textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="severity" class="form-label">Initial Severity</label>
+                                <select class="form-select" id="severity" name="severity">
+                                    <option value="low">Low</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="confidence" class="form-label">Confidence Level</label>
+                                <select class="form-select" id="confidence" name="confidence">
+                                    <option value="0.3">Low (30%)</option>
+                                    <option value="0.5" selected>Medium (50%)</option>
+                                    <option value="0.7">High (70%)</option>
+                                    <option value="0.9">Very High (90%)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="source_ip" class="form-label">Source IP</label>
+                                <input type="text" class="form-control" id="source_ip" name="source_ip"
+                                       placeholder="e.g., 192.168.1.100">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-warning btn-lg">
+                            <i class="fas fa-bolt"></i> Create & Auto-Triage Alert
+                        </button>
+                        <a href="/alerts" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-info text-white">
+                <h5><i class="fas fa-robot"></i> Automation Features</h5>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li><strong>Automatic Triage:</strong> Alerts are automatically analyzed for severity and confidence</li>
+                    <li><strong>Threat Intelligence:</strong> Suspicious IPs are automatically flagged</li>
+                    <li><strong>Pattern Detection:</strong> Keywords like "brute force", "malware" trigger higher severity</li>
+                    <li><strong>Evidence Collection:</strong> High-severity alerts automatically trigger evidence collection</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

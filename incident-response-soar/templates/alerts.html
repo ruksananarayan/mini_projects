@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-bell"></i> Security Alerts</h2>
+    <a href="/create-alert" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Create New Alert
+    </a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Source</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Severity</th>
+                        <th>Confidence</th>
+                        <th>Source IP</th>
+                        <th>Status</th>
+                        <th>Timestamp</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for alert in alerts %}
+                    <tr>
+                        <td>{{ alert.id }}</td>
+                        <td>{{ alert.source }}</td>
+                        <td><strong>{{ alert.alert_type }}</strong></td>
+                        <td>{{ alert.description[:80] }}{% if alert.description|length > 80 %}...{% endif %}</td>
+                        <td>
+                            <span class="badge bg-{% if alert.severity == 'critical' %}danger{% elif alert.severity == 'high' %}danger{% elif alert.severity == 'medium' %}warning{% else %}secondary{% endif %}">
+                                {{ alert.severity|upper }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="progress" style="height: 20px;">
+                                <div class="progress-bar bg-{% if alert.confidence > 0.7 %}danger{% elif alert.confidence > 0.5 %}warning{% else %}info{% endif %}" 
+                                     style="width: {{ (alert.confidence * 100) | round | int }}%">
+                                    {{ (alert.confidence * 100) | round | int }}%
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{ alert.source_ip if alert.source_ip else 'N/A' }}</td>
+                        <td>
+                            <span class="badge bg-{% if alert.status == 'triaged' %}success{% elif alert.status == 'automated' %}info{% else %}warning{% endif %}">
+                                {{ alert.status }}
+                            </span>
+                        </td>
+                        <td>{{ alert.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-warning" onclick="triageAlert({{ alert.id }})" title="Triage Alert">
+                                <i class="fas fa-search"></i> Triage
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+function triageAlert(alertId) {
+    fetch('/api/alerts/' + alertId + '/triage', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'}
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert('Alert triaged!\nFinal Severity: ' + data.final_severity + '\nConfidence: ' + (data.final_confidence * 100).toFixed(1) + '%');
+        location.reload();
+    })
+    .catch(error => {
+        alert('Error triaging alert: ' + error.message);
+    });
+}
+</script>
+{% endblock %}

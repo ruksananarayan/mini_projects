@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4><i class="fas fa-plus-circle"></i> Create New Incident</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="/create-incident">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Incident Title *</label>
+                        <input type="text" class="form-control" id="title" name="title" required 
+                               placeholder="e.g., Brute Force Attack on Web Server">
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description *</label>
+                        <textarea class="form-control" id="description" name="description" rows="4" required
+                                  placeholder="Detailed description of the incident..."></textarea>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="severity" class="form-label">Severity *</label>
+                                <select class="form-select" id="severity" name="severity" required>
+                                    <option value="low">Low</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="high">High</option>
+                                    <option value="critical">Critical</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="source_ip" class="form-label">Source IP</label>
+                                <input type="text" class="form-control" id="source_ip" name="source_ip"
+                                       placeholder="e.g., 192.168.1.100">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="destination_ip" class="form-label">Destination IP</label>
+                        <input type="text" class="form-control" id="destination_ip" name="destination_ip"
+                               placeholder="e.g., 10.0.0.50">
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fas fa-save"></i> Create Incident
+                        </button>
+                        <a href="/incidents" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-info text-white">
+                <h5><i class="fas fa-lightbulb"></i> Example Incidents</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <strong>Brute Force Attack:</strong><br>
+                    Title: "Multiple Failed SSH Login Attempts"<br>
+                    Description: "Detected 50+ failed SSH login attempts from IP 203.0.113.45"<br>
+                    Severity: High, Source IP: 203.0.113.45
+                </div>
+                <div class="alert alert-danger">
+                    <strong>Malware Detection:</strong><br>
+                    Title: "Ransomware Detected on Workstation"<br>
+                    Description: "Cryptolocker variant detected on workstation-01, files being encrypted"<br>
+                    Severity: Critical, Source IP: 192.168.1.50
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
